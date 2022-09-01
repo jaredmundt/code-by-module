@@ -1,0 +1,24 @@
+// Iofile.cpp
+#include <cassert>
+#include <fstream>
+#include <iostream>
+using namespace std;
+
+int main() {
+  ifstream in("Iofile.cpp");
+  ofstream out("Iofile.out");
+  out << in.rdbuf(); // Copy whole file to Iofile.out
+  in.close();
+  out.close();
+  cin.get();
+  
+  // Open for reading and writing:
+  fstream inout("Iofile.out", ios::in | ios::out);
+  cout << inout.rdbuf();  // Print whole file (but does not set eofbit!)
+  assert(!inout.eof());
+  inout << "Where does this end up?";
+  inout.seekp(0, ios::beg);     // Follow with a write
+  inout << "And what about this?";
+  inout.seekg(0, ios::beg);     // Follow with a read
+  cout << inout.rdbuf();
+}
